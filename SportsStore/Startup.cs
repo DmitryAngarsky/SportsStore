@@ -37,10 +37,11 @@ namespace SportsStore
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("pagination",
+                    "Product/Page{productPage}",
+                    new { Controller = "Home", action = "Index"});
                 endpoints.MapDefaultControllerRoute();
             });
-
-            //SeedData.EnsurePupulated(app);
         }
     }
 }
