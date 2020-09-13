@@ -25,7 +25,7 @@ namespace SportsStore
                 opts.UseSqlServer(
                     Configuration.GetConnectionString("SportsStoreConnection"));
             });
-            services.AddScoped<IStoreRepository, EFStoreRepository>();
+            services.AddScoped<IStoreRepository, EfStoreRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,6 +37,18 @@ namespace SportsStore
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("catpage",
+                    "{category}/Page{productPage:int}",
+                    new {Controller = "Home", action = "Index"});
+                
+                endpoints.MapControllerRoute("page",
+                    "Page{productPage:int}",
+                    new {Controller = "Home", action = "Index", productPage = 1});
+                
+                endpoints.MapControllerRoute("category",
+                    "{category}",
+                    new {Controller = "Home", action = "Index", productPage = 1});
+
                 endpoints.MapControllerRoute("pagination",
                     "Product/Page{productPage}",
                     new { Controller = "Home", action = "Index"});

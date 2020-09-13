@@ -21,4 +21,8 @@
   <ItemGroup>
     <ProjectReference Include="..\SportsStore\SportsStore.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Components" />
+  </ItemGroup>
 </Project>
