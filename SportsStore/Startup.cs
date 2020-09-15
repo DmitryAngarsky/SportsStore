@@ -27,6 +27,8 @@ namespace SportsStore
             });
             services.AddScoped<IStoreRepository, EfStoreRepository>();
             services.AddRazorPages();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -34,7 +36,7 @@ namespace SportsStore
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
