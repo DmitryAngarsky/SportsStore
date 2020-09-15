@@ -15,7 +15,7 @@ namespace SportsStore
             Configuration = config;
         }
 
-        public IConfiguration Configuration { get; set; }
+        private IConfiguration Configuration { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -26,6 +26,7 @@ namespace SportsStore
                     Configuration.GetConnectionString("SportsStoreConnection"));
             });
             services.AddScoped<IStoreRepository, EfStoreRepository>();
+            services.AddRazorPages();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -53,6 +54,7 @@ namespace SportsStore
                     "Product/Page{productPage}",
                     new { Controller = "Home", action = "Index"});
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }
