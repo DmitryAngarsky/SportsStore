@@ -30,7 +30,8 @@ namespace SportsStore.Infrastructure {
         public Dictionary<string, object> PageUrlValues { get; set; }
             = new Dictionary<string, object>();
         
-        public bool PageClassesEnabled { get; set; } = false; public string PageClass { get; set; }
+        public bool PageClassesEnabled { get; set; } = false; 
+        public string PageClass { get; set; }
         public string PageClassNormal { get; set; }
         public string PageClassSelected { get; set; }
 
