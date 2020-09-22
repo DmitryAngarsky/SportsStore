@@ -27,6 +27,7 @@ namespace SportsStore
                     Configuration.GetConnectionString("SportsStoreConnection"));
             });
             services.AddScoped<IStoreRepository, EfStoreRepository>();
+            services.AddScoped<IOrderRepository, EFOrderRepository>();
             services.AddRazorPages();
             services.AddDistributedMemoryCache();
             services.AddSession();
@@ -61,6 +62,7 @@ namespace SportsStore
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
+            SeedData.EnsurePupulated(app);
         }
     }
 }
