@@ -3,9 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SportsStore.Models
 {
+    // ReSharper disable once InconsistentNaming
     public class EFOrderRepository : IOrderRepository
     {
-        private StoreDbContext _context;
+        private readonly StoreDbContext _context;
 
         public EFOrderRepository(StoreDbContext context)
         {
