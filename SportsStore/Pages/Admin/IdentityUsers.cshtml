@@ -1,6 +1,7 @@
 @page
 @model IdentityUserModel
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization
 
 <h3 class="bg-primary text-white text-center p-2">AdminUser</h3>
 
@@ -14,6 +15,7 @@
 
 @functions
 {
+    [Authorize]
     public class IdentityUserModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
