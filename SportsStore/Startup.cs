@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,11 +22,18 @@ namespace SportsStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            
             services.AddDbContext<StoreDbContext>(opts =>
-            {
                 opts.UseSqlServer(
-                    Configuration.GetConnectionString("SportsStoreConnection"));
-            });
+                    Configuration.GetConnectionString("SportsStoreConnection")));
+            
+            services.AddDbContext<AppIdentityDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("IdentityConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>();
+            
             services.AddScoped<IStoreRepository, EfStoreRepository>();
             services.AddScoped<IOrderRepository, EFOrderRepository>();
             services.AddRazorPages();
@@ -43,6 +51,10 @@ namespace SportsStore
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("catpage",
@@ -60,12 +72,14 @@ namespace SportsStore
                 endpoints.MapControllerRoute("pagination",
                     "Product/Page{productPage}",
                     new { Controller = "Home", action = "Index"});
+                
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
             });
             SeedData.EnsurePupulated(app);
+            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }
