@@ -14,18 +14,18 @@ namespace SportsStore.Models
 
         public IQueryable<Product> Products => _context.Products;
         
-        public async Task SaveProduct(Product p)
+        public async Task SaveProductAsync(Product p)
+        {
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task CreateProductAsync(Product p)
         {
             await _context.AddAsync(p);
             await _context.SaveChangesAsync();
         }
 
-        public async Task CreateProduct(Product p)
-        {
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteProduct(Product p)
+        public async Task DeleteProductAsync(Product p)
         {
             _context.Remove(p);
             await _context.SaveChangesAsync();

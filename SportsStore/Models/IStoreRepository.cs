@@ -7,8 +7,8 @@ namespace SportsStore.Models
     {
         IQueryable<Product> Products { get; }
 
-        Task SaveProduct(Product p);
-        Task CreateProduct(Product p);
-        Task DeleteProduct(Product p);
+        Task SaveProductAsync(Product p);
+        Task CreateProductAsync(Product p);
+        Task DeleteProductAsync(Product p);
     }
 }
