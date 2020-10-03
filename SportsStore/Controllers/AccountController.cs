@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SportsStore.Models.ViewModels;
@@ -45,6 +46,13 @@ namespace SportsStore.Controllers
 
             ModelState.AddModelError("", "Invalid name or password");
             return View(loginModel);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Logout(string returnUrl = "/")
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect(returnUrl);
         }
     }
 }
