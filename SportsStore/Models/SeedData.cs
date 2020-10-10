@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -7,19 +8,20 @@ namespace SportsStore.Models
 {
     public class SeedData
     {
-        public static void EnsurePupulated(IApplicationBuilder app)
+        internal static async void EnsurePopulated(IApplicationBuilder app)
         {
             StoreDbContext context = app.ApplicationServices
-                .CreateScope().ServiceProvider.GetRequiredService<StoreDbContext>();
+                .CreateScope().ServiceProvider
+                .GetRequiredService<StoreDbContext>();
 
-            if(context.Database.GetPendingMigrations().Any())
+            if ((await context.Database.GetPendingMigrationsAsync()).Any())
             {
-                context.Database.Migrate();
+                await context.Database.MigrateAsync();
             }
 
-            if (!context.Products.Any())
+            if (!await context.Products.AnyAsync())
             {
-                context.Products.AddRange(
+                await context.Products.AddRangeAsync(
 
                     new Product
                     {
@@ -86,7 +88,7 @@ namespace SportsStore.Models
                     }
                 );
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
     }

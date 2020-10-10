@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace SportsStore.Models
 {
-    public static class IdentitySeedData
+    internal class IdentitySeedData
     {
         private const string AdminUser = "Admin";
         private const string AdminPassword = "Secret123$";
@@ -16,8 +17,8 @@ namespace SportsStore.Models
             AppIdentityDbContext context = app.ApplicationServices
                 .CreateScope().ServiceProvider
                 .GetRequiredService<AppIdentityDbContext>();
-
-            if ((await context.Database.GetAppliedMigrationsAsync()).Any())
+            
+            if ((await context.Database.GetPendingMigrationsAsync()).Any()) 
             {
                 await context.Database.MigrateAsync();
             }
